@@ -1,51 +1,100 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: klekot
- * Date: 14.10.2017
- * Time: 22:32
- */
 
 namespace GF\Core;
 
 class AbstractRestController extends AbstractController
 {
+    protected $modelName;
+
     public function indexAction()
     {
         switch ($_SERVER['REQUEST_METHOD']) {
             case 'GET':
-                $this->show($data = null);
+                $this->show();
                 break;
             case 'POST':
-                $this->create($data = null);
+                $this->create();
                 break;
             case 'PUT':
-                $this->update($data = null);
+                $this->update();
                 break;
             case 'DELETE':
-                $this->destroy($data = null);
+                $this->destroy();
                 break;
         }
     }
 
-    protected function show($data)
+    protected function show()
     {
+        $data = array();
+        $modelName = $this->modelName;
+        if (isset($_REQUEST['id'])) {
+            $instance = $modelName::find($_REQUEST['id']);
+            $data[] = $this->getProperties($instance);
+        } else {
+            $instances = $modelName::all();
+            foreach ($instances as $key => $instance) {
+                $data[] = $this->getProperties($instance);
+            }
+        }
         $this->_responseWithJson($data);
     }
 
-    protected function create($data)
+    protected function create()
     {
-        $this->_responseWithJson($data);
+        $modelName = $this->modelName;
+        $inputJSON = file_get_contents('php://input');
+        $data = json_decode($inputJSON, TRUE);
+
+        foreach ($data as $insert) {
+            $newInstance = $modelName::create($insert, true);
+        }
+
+        $response = json_encode(array(
+            'created' => $newInstance->name
+        ));
+        $this->_responseWithJson($response);
     }
 
-    protected function update($data)
+    protected function update()
     {
-        $this->_responseWithJson($data);
+        $modelName = $this->modelName;
+        $newInstances = array();
+        $ids = array();
+
+        $inputJSON = file_get_contents('php://input');
+        $data = json_decode($inputJSON, TRUE);
+        $instances = $modelName::all();
+
+        foreach ($data as $value) {
+            $ids[$value['id']] = $value;
+        }
+
+        foreach ($instances as $instance) {
+            if (array_key_exists($instance->id, $ids)) {
+                $instance->update_attributes($ids[$instance->id]);
+                $newInstances[] = $instance->name;
+            }
+        }
+
+        $response = json_encode(array(
+            'created' => $newInstances
+        ));
+        $this->_responseWithJson($response);
     }
 
-    protected function destroy($data)
+    protected function destroy()
     {
-        $this->_responseWithJson($data);
+        $modelName = $this->modelName;
+        if (isset($_REQUEST['id'])) {
+            $instance = $modelName::find($_REQUEST['id']);
+            if ($instance) $instance->delete();
+        }
+
+        $response = json_encode(array(
+            'deleted' => $instance->id
+        ));
+        $this->_responseWithJson($response);
     }
 
     protected function getProperties($model)

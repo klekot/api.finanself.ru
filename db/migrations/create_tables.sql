@@ -27,8 +27,13 @@ CREATE TABLE `accounts` (
 	`name` VARCHAR(45) NOT NULL,
 	`debit` DECIMAL(8,2) NOT NULL DEFAULT '0.00',
 	`creit` DECIMAL(8,2) NOT NULL DEFAULT '0.00',
+	`user_id` INT NOT NULL DEFAULT '1',
 	`currency_id` INT NOT NULL DEFAULT '1',
 	PRIMARY KEY (`id`),
+	CONSTRAINT `accounts_users`
+	FOREIGN KEY (`user_id`)
+	REFERENCES `users` (`id`)
+		ON UPDATE RESTRICT ON DELETE RESTRICT,
 	CONSTRAINT `accounts_currencies`
 	FOREIGN KEY (`currency_id`)
 	REFERENCES `currencies` (`id`)
