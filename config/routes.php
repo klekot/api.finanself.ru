@@ -8,10 +8,6 @@ use \GF\Core\Router as Router;
 //  User routes
 //  Place your custom routes here:
 
-//  replace me :)
-Router::add('^pages/(?P<action>[a-z-]+)/(?P<alias>[a-z-]+)$', ['controller' => 'Pages']);
-Router::add('^pages/(?P<alias>[a-z-]+)$', ['controller' => 'Pages', 'action' => 'view']);
-
 //  Main routes
 Router::add('^$', ['module' => 'Main', 'controller' => 'Index', 'action' => 'index']);
 

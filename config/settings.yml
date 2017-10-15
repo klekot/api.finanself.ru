@@ -12,7 +12,7 @@ directories:
 # settings section
 settings:
   # when false, working only Main module
-  MODULES_ENABLED:     true
+  MODULES_ENABLED:     false
 
   # when false, classpaths.cache is not used by autoloader
   # "true" is recommended for wide projects

@@ -21,3 +21,26 @@ CREATE TABLE `users` (
 )
 	COLLATE='utf8_general_ci'
 	ENGINE=InnoDB;
+
+CREATE TABLE `accounts` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(45) NOT NULL,
+	`debit` DECIMAL(8,2) NOT NULL DEFAULT '0.00',
+	`creit` DECIMAL(8,2) NOT NULL DEFAULT '0.00',
+	`currency_id` INT NOT NULL DEFAULT '1',
+	PRIMARY KEY (`id`),
+	CONSTRAINT `accounts_currencies`
+	FOREIGN KEY (`currency_id`)
+	REFERENCES `currencies` (`id`)
+		ON UPDATE RESTRICT ON DELETE RESTRICT
+)
+	COLLATE='utf8_general_ci'
+	ENGINE=InnoDB;
+
+CREATE TABLE `currencies` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(45) NOT NULL DEFAULT '',
+	`symbol` VARCHAR(10) NULL DEFAULT ''
+)
+	COLLATE='utf8_general_ci'
+	ENGINE=InnoDB;
