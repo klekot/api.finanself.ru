@@ -32,7 +32,7 @@ class ControlPanelController extends AbstractController
             }
         } else {
             if (isset($_COOKIE['remember-me'])) {
-                $user = $user = \User::find(array($_COOKIE['remember-me']));
+                $user = \User::find(array($_COOKIE['remember-me']));
                 $this->view->user = $user;
                 $this->view->rememberMe = $_COOKIE['remember-me'];
             }
