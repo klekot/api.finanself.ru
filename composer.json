@@ -1,5 +1,5 @@
 {
-    "name": "klekot/gusli-framework.local",
+    "name": "klekot/api.finanself.ru",
     "require": {
         "php-activerecord/php-activerecord": "^1.2",
         "creitive/breadcrumbs": "^3.2"

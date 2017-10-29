@@ -2,7 +2,7 @@
 
 namespace GF\Core;
 
-class AbstractRestController extends AbstractController
+abstract class AbstractRestController extends AbstractController
 {
     protected $modelName;
 

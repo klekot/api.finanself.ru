@@ -27,8 +27,23 @@ class Application
 
     public function run()
     {
-        $query = trim($_SERVER['REQUEST_URI'], '/');
+        $username = $_SERVER['PHP_AUTH_USER'];
+        $password = $_SERVER['PHP_AUTH_PW'];
 
-        Router::dispatch($query);
+        $user = \User::find(array('login' => $username, 'password' => $password));
+
+        if (!is_null($user)) {
+            $query = trim($_SERVER['REQUEST_URI'], '/');
+
+            Router::dispatch($query);
+        } else {
+            header($_SERVER["SERVER_PROTOCOL"]." 215 Bad Authentication data");
+            header('Content-Type: application/json');
+            echo json_encode(array(
+                'message' => 'Bad Authentication data',
+                'code'    => 215
+            ));
+        }
+
     }
 }

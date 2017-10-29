@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8bd0b2f67abfd49045396f2d9021bf24",
+    "content-hash": "e0ccccefa90eb2ddaf253827b49d2640",
     "packages": [
         {
             "name": "creitive/breadcrumbs",
